@@ -10,6 +10,7 @@ class Listing(models.Model):
 	bedrooms = models.FloatField(default=0)
 	bathrooms = models.FloatField(default=0)
 	rent = models.FloatField(default=0)
+	sqft = models.FloatField(default=0)
 	uuid = models.UUIDField(default=uuid.uuid4, editable=False)
 	
 	def __str__(self):
