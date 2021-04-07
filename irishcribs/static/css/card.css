@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css?family=Cookie');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+
+.userhead {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  top: 0;
+}
+
+.userhead-title {
+  font-size: 88px;
+  font-family: 'Verdana';
+  color: goldenrod;
+  font-weight: bold; 
+  text-transform: uppercase; 
+  padding-bottom: 0px;
+}
+
+.userhead-content {
+  font-size: 18px;
+  font-family: 'Open Sans';
+  color: black;
+}
+
+.userhead-content a {
+  color: green;
+}
+
+.usercard-list {
+  display: flex;
+  padding: 3rem;
+  overflow-x: scroll;
+  margin-bottom: 0;
+  background: #17141d;
+}
+
+.usercard-list::-webkit-scrollbar {
+  height: 0.5rem;
+}
+
+.usercard-list::-webkit-scrollbar-track {
+  background: #1e1e24;
+}
+
+.usercard-list::-webkit-scrollbar-thumb {
+  background: #6649b8;
+  border-radius: 5px;
+}
+
+.usercard {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  height: 350px;
+  width: 400px;
+  min-width: 250px;
+  padding: 1.5rem;
+
+  border-radius: 16px;
+  background: #17141d;
+  box-shadow: -1rem 0 3rem #000;
+
+  transition: .2s;
+}
+
+.usercard:hover {
+  transform: translateY(-1rem);
+}
+
+.usercard:hover~.usercard {
+  transform: translateX(130px);
+}
+
+.usercard:not(:first-child) {
+  margin-left: -130px;
+}
+
+.usercard-header {
+  margin-bottom: auto;
+}
+
+.usercard-header h2 {
+  font-size: 30px;
+  margin: .25rem 0 auto;
+  text-decoration: none;
+  color: white;
+  border: 0;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.usercard-header a {
+  text-decoration: none;
+  color: white;
+}
+
+.usercard-header a:hover {
+  background: -webkit-linear-gradient(90deg, #FFAC33, #EE82EE);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.usercard-content {
+  color: white;
+  font-size: 20px;
+}
+

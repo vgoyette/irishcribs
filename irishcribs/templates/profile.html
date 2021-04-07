@@ -1,0 +1,179 @@
+{% load static %}
+<head>
+  {% if user.is_authenticated %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  {% else %}
+    <meta http-equiv="refresh" content="0; url = {% url 'home' %}"/>
+  {% endif %}
+  <script defer src="{% static 'js/about.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/about.css' %}"/>
+  <link rel="stylesheet" href="{% static 'css/fa.css' %}"/>
+  <!--<link rel="stylesheet" href="{% static 'css/card.css' %}"/>-->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet"/>
+  <link href= "https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
+  <link rel="shortcut icon" type="image/ico" href="{% static 'img/homeicon.ico' %}"/>
+  <title>Home</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    .column {
+      float: left;
+      width: 25%;
+      padding: 0 10px;
+	    margin-bottom: 10px;
+    }
+
+    .row {margin: 0 -5px;}
+
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+
+    @media screen and (max-width: 700px) {
+      .column {
+        width: 100%;
+        display: block;
+        margin-bottom: 20px;
+      }
+    }
+
+    .card {
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      padding: 16px;
+      text-align: center;
+      background-color: #f1f1f1;
+    }
+
+    .card-text {
+      color: white;
+    }
+
+    .card-link {
+      color: green;
+    }
+
+    .card-title {
+      font-size: 40px;
+      font-family: 'Verdana';
+      color: goldenrod;
+    }
+
+    .fa-primary {
+      color: green;
+    }
+
+  .fa-secondary {
+    color: green;
+  }
+
+  .userhead {
+  display: block;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+  top: 0;
+  background-color: navy;
+}
+
+.userhead-title {
+  font-size: 72px;
+  font-family: 'Verdana';
+  color: goldenrod;
+  font-weight: bold;
+  padding-bottom: 0px;
+}
+
+.userhead-content {
+  font-size: 18px;
+  font-family: 'Open Sans';
+  color: white;
+}
+
+.userhead-content a {
+  color: green;
+}
+  
+  </style>
+</head>
+
+
+<body>
+  <main>
+    <div class="userhead">
+      <p class="userhead-title">Hello, {{ user.username }}</p>
+	    <p class="userhead-content">Take a look at your starred listings, or <a href="{% url 'logout' %}">click here to logout</a></p>
+    </div>
+   </main>
+  <nav class="navbar">
+    <ul class="navbar-nav">
+      <li class="logo">
+        <a href="{% url 'home' %}" class="nav-link">
+          <span class="link-text logo-text" style="font-size: medium">Irish Cribs</span>
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fad"
+            data-icon="angle-double-right"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
+            class="svg-inline--fa fa-angle-double-right fa-w-14 fa-5x"
+          >
+            <g class="fa-group">
+              <path
+                fill="currentColor"
+                d="M224 273L88.37 409a23.78 23.78 0 0 1-33.8 0L32 386.36a23.94 23.94 0 0 1 0-33.89l96.13-96.37L32 159.73a23.94 23.94 0 0 1 0-33.89l22.44-22.79a23.78 23.78 0 0 1 33.8 0L223.88 239a23.94 23.94 0 0 1 .1 34z"
+                class="fa-secondary"
+              ></path>
+              <path
+                fill="currentColor"
+                d="M415.89 273L280.34 409a23.77 23.77 0 0 1-33.79 0L224 386.26a23.94 23.94 0 0 1 0-33.89L320.11 256l-96-96.47a23.94 23.94 0 0 1 0-33.89l22.52-22.59a23.77 23.77 0 0 1 33.79 0L416 239a24 24 0 0 1-.11 34z"
+                class="fa-primary"
+              ></path>
+            </g>
+          </svg>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+		      <i class="fas fa-home fa-primary fa-secondary fa-2x"></i>
+          <span class="link-text">Housing</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+		      <i class="fas fa-building fa-primary fa-secondary fa-2x"></i>
+          <span class="link-text">Sublets</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-question fa-primary fa-secondary fa-2x"></i>
+		      <span class="link-text">About</span>
+        </a>
+      </li>
+      
+	  <li class="nav-item" id="themeButton">
+      {% if user.is_authenticated %}
+        <a href="#" class="nav-link">
+		     <i class="fas fa-user fa-primary fa-secondary fa-2x"></i>
+         <span class="link-text">Account</span>
+        </a>
+      {% else %}
+        <a href="{% url 'login' %}" class="nav-link">
+          <i class="fas fa-user fa-primary fa-secondary fa-2x"></i>
+          <span class="link-text">Login</span>
+        </a>
+      {% endif %}  
+      </li>
+    </ul>
+  </nav>
+
+</body>

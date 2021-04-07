@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block stylesheet %}
+  <link rel="shortcut icon" type="image/ico" href="{% static 'img/homeicon.ico' %}"/>
+  <style>
+    a.homelink{
+      font-weight: bold; 
+      text-transform: uppercase; 
+      font-size: 88px; 
+      font-family: 'Verdana'; 
+      color: goldenrod;
+      text-decoration: none;
+    }
+
+    a.signuplink{
+      color: green;
+      text-decoration: none;
+    }
+
+    a.signuplink:hover{
+      color: lime;
+      text-decoration: underline;
+    }
+  
+    a.homelink:hover{
+      color: goldenrod;
+      text-decoration: none;
+    }
+  </style>
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1 class="text-center my-4">
+      <a href="{% url 'home' %}" class="homelink">
+        IRISH CRIBS
+      </a>
+    </h1>
+    {% block content %}
+    {% endblock %}
+  </div>
+{% endblock %}
