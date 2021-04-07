@@ -29,7 +29,7 @@ urlpatterns = [
     
     path('userAccount/', user_views.accountPage, name='user_account'),
 
-	#path('listings/', listing_views.show_listings, name='show_listings.html'),
+	path('listings/', listing_views.show_listings, name='show_listings.html'),
 
     path('admin/', admin.site.urls),
 
