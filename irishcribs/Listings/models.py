@@ -1,32 +1,55 @@
 #!/usr/bin/python3
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ModelForm
+
 
 import uuid
 
 # Create your models here.
 
 class Listing(models.Model):
-	address = models.CharField(max_length=100, default='1 Compton Family Ice Arena, Notre Dame, IN 46556')
-	#lister = models.ForeignKey(User, on_delete=models.CASCADE)
-	lister = models.CharField(max_length=40, default="admin")
-	startDate = models.CharField(max_length=40, default='December 31st, 2021')
-	endDate = models.CharField(max_length=40, default='January 1st, 2022')
-	rent = models.FloatField(default=0)
-	bedrooms = models.FloatField(default=0)
-	bathrooms = models.FloatField(default=0)
-	sqft = models.FloatField(default=0)
-	isApartment = models.IntegerField(default=0)
-	website = models.CharField(max_length=50, default="http://www.nd.edu")
-	comments = models.CharField(max_length=100, default="")
+	address = models.CharField(max_length=100, primary_key=True)
+	lister = models.ForeignKey(User, on_delete=models.CASCADE)
+	startDate = models.DateField(blank=True, null=True)
+	endDate = models.DateField(blank=True, null=True)
+	rent = models.FloatField(blank=True, null=True)
+	bedrooms = models.FloatField(blank=True, null=True)
+	bathrooms = models.FloatField(blank=True, null=True)
+	sqft = models.FloatField(blank=True, null=True)
+	isApartment = models.IntegerField(blank=True, null=True)
+	website = models.CharField(max_length=50, blank=True, null=True)
+	comments = models.CharField(max_length=100, blank=True, null=True)
 	
 	def __str__(self):
 		return str(self.address)
 
 
+	
+#class EditForm(ModelForm):
+#    class Meta:
+#        model = Listing
+#        exclude = ['lister']
+
+#class AddForm(ModelForm):
+#    class Meta:
+#        model = Listing
+#        exclude = ['lister']
+
+#class FilterForm(ModelForm):#
+#	class Meta:
+#		model = Listing
+#		fields = ['bedrooms',
+#				  'bathrooms',
+#				  'rent',
+#				  'sqft',
+#				  'isApartment']
+
+
+
 class listing_library():
 	
-	def edit_listing(listing=None, address="", startDate="", endDate="", rent=-1, bedrooms=-1, bathrooms=-1, sqft=-1, isApartment=-1, website="", comments=""):
+	def edit_listing(listing=None, address=None, startDate=None, endDate=None, rent=None, bedrooms=None, bathrooms=None, sqft=None, isApartment=None, website=None, comments=None):
 		# 0 is house, 1 is apartment
 		rAddr = None
 
@@ -38,7 +61,7 @@ class listing_library():
 		# It's ugly, but it works
 		if listing is not None:
 
-			if address == "":
+			if address == None:
 				query = query + "Address='" + str(listing.address) + "', "
 				rAddr = str(listing.address)
 			else:
@@ -46,55 +69,55 @@ class listing_library():
 				rAddr = str(address)
 
 
-			if startDate == "":
+			if startDate == None:
 				query = query + "StartDate='" + str(listing.startDate) + "', "
 			else:
 				query = query + "StartDate='" + str(startDate) + "', "
 			
 
-			if endDate == "":
+			if endDate == None:
 				query = query + "EndDate='" + str(listing.endDate) + "', "
 			else:
 				query = query + "EndDate='" + str(endDate) + "', "
 
 
-			if rent == -1:
+			if rent == None:
 				query = query + "ListingPrice=" + str(listing.rent) + ", "
 			else:
 				query = query + "ListingPrice=" + str(rent) + ", "
 
 
-			if bedrooms == -1:
+			if bedrooms == None:
 				query = query + "Bedrooms=" + str(listing.bedrooms) + ", "
 			else:
 				query = query + "Bedrooms=" + str(bedrooms) + ", "
 
 
-			if bathrooms == -1:
+			if bathrooms == None:
 				query = query + "Bathrooms=" + str(listing.bathrooms) + ", "
 			else:
 				query = query + "Bathrooms=" + str(bathrooms) + ", "
 
 
-			if sqft == -1:
+			if sqft == None:
 				query = query + "SqFt=" + str(listing.sqft) + ", "
 			else:
 				query = query + "SqFt=" + str(sqft) + ", "
 
 
-			if isApartment == -1:
+			if isApartment == None:
 				query = query + "ApartmentBool=" + str(listing.isApartment) + ", "
 			else:
 				query = query + "ApartmentBool=" + str(isApartment) + ", "
 
 
-			if website == "":
+			if website == None:
 				query = query + "Website='" + str(listing.website) + "', "
 			else:
 				query = query + "Website='" + str(website) + "', "
 
 
-			if comments == "":
+			if comments == None:
 				query = query + "Comments='" + str(listing.comments) + "', "
 			else:
 				query = query + "Comments='" + str(comments) + "', "
@@ -127,22 +150,32 @@ class listing_library():
 
 		return query
 
+	
+	def filter_listings(minBedrooms=0, minBathrooms=0, maxRent=5000, minSqft=0, isApartment=-1):
+		beds = minBedrooms
+		baths = minBathrooms
+		rent = maxRent
+		sqft = minSqft
+		apt = isApartment
 
 
-temp_l = Listing(address="4000 Braemore Ave, Roseland, IN 46556",
-				 lister="vgoyette",
-				 startDate="June 1st, 2021",
-				 endDate="May 30th, 2022",
-				 rent=1400,
-			     bedrooms=4,
-				 bathrooms=3,  
-				 sqft=1000,
-				 isApartment=1,
-				 website="www.universityedgend.com",
-				 comments="This place is literally destroyed"
-				)
+		# If the user specifies the type of listing (i.e. apartment or house), only those types of listings are searched for
+		if isApartment == -1:
+			query = f"""SELECT * FROM Listings WHERE Bedrooms>={beds} AND Bathrooms>={baths} AND ListingPrice<={rent} AND SqFt>={sqft};"""
+		# If the user doesn't specify, then all listings meeting the other params are returned
+		else:
+			query = f"""SELECT * FROM Listings WHERE Bedrooms>={beds} AND Bathrooms>={baths} AND ListingPrice<={rent} AND SqFt>={sqft} AND ApartmentBool={apt};"""
 
-print(listing_library.add_listing("4000 Braemore Ave, Roseland, IN 46556",
+
+		return query
+
+
+	def get_all_listings():
+		query = f"""SELECT Address, StartDate, EndDate, ListingPrice, Bedrooms, Bathrooms, SqFt, ApartmentBool, Website, Comments FROM Listings"""
+
+		return query
+
+'''print(listing_library.add_listing("4000 Braemore Ave, Roseland, IN 46556",
 				 "vgoyette",
 				 "June 1st, 2021",
 				 "May 30th, 2022",
@@ -153,6 +186,4 @@ print(listing_library.add_listing("4000 Braemore Ave, Roseland, IN 46556",
 				 1,
 				 "www.universityedgend.com",
 				 "This place is literally destroyed"
-))
-
-print(listing_library.delete_listing(temp_l))
+))'''
