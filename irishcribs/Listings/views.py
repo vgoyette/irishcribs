@@ -119,14 +119,14 @@ def filter_listing_form(request):
                 maxRent = form.cleaned_data['rent']
             if form.cleaned_data['sqft']:
                 minSqft = form.cleaned_data['sqft']
-            if form.cleaned_data['isApartment']:
-                apt = form.cleaned_data['isApartment']
+            #if form.cleaned_data['isApartment']:
+            #    apt = form.cleaned_data['isApartment']
 
             listings = Listing.objects.filter(bedrooms__gte=minBeds,
                                               bathrooms__gte=minBaths,
                                               rent__lte=maxRent,
                                               sqft__gte=minSqft,
-                                              isApartment=apt,
+                                              #isApartment=apt,
                                             )
             
             filtered_listings = []

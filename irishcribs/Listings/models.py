@@ -2,6 +2,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ModelForm
+from django.db import connection
 
 
 import uuid
@@ -18,34 +19,11 @@ class Listing(models.Model):
 	bathrooms = models.FloatField(blank=True, null=True)
 	sqft = models.FloatField(blank=True, null=True)
 	isApartment = models.IntegerField(blank=True, null=True)
-	website = models.CharField(max_length=50, blank=True, null=True)
+	website = models.CharField(max_length=100, blank=True, null=True)
 	comments = models.CharField(max_length=100, blank=True, null=True)
 	
 	def __str__(self):
 		return str(self.address)
-
-
-	
-#class EditForm(ModelForm):
-#    class Meta:
-#        model = Listing
-#        exclude = ['lister']
-
-#class AddForm(ModelForm):
-#    class Meta:
-#        model = Listing
-#        exclude = ['lister']
-
-#class FilterForm(ModelForm):#
-#	class Meta:
-#		model = Listing
-#		fields = ['bedrooms',
-#				  'bathrooms',
-#				  'rent',
-#				  'sqft',
-#				  'isApartment']
-
-
 
 class listing_library():
 	
@@ -54,7 +32,7 @@ class listing_library():
 		rAddr = None
 
 		# Build query for an update
-		query = "UPDATE Listings SET "
+		query = "UPDATE Listings_listings SET "
 
 
 		# This way of building the query is pretty gross, but it allows us to control for if only a few attributes are changing and not all of them.
@@ -124,7 +102,9 @@ class listing_library():
 
 			# Add a where clause to make sure the correct address is updated			
 			query = query + " WHERE address='" + rAddr + "';"
-			return query
+
+			# Execute actual SQL command to edit the row in the database
+			Listing.objects.raw(query)
 
 	def add_listing(address, lister, start, end, rent, bedrooms, bathrooms, sqft, isApartment, website, comments):
 		l = Listing(address=address, 
@@ -139,16 +119,18 @@ class listing_library():
 					website=website,
 					comments=comments)
 		
-		query = f"""INSERT INTO Listings (Address, Lister, StartDate, EndDate, ListingPrice, Bedrooms, Bathrooms, SqFt, ApartmentBool, Website, Comments) VALUES 
+		query = f"""INSERT INTO Listings_listings (Address, Lister, StartDate, EndDate, ListingPrice, Bedrooms, Bathrooms, SqFt, ApartmentBool, Website, Comments) VALUES 
 ('{l.address}', '{l.lister}', '{l.startDate}', '{l.endDate}', {l.rent}, {l.bedrooms}, {l.bathrooms}, {l.sqft}, {l.isApartment}, '{l.website}', '{l.comments}'); """
-		return query
+		
+		Listings.objects.raw(query)
 
 	def delete_listing(listing):
 		addr = listing.address
 
-		query = f"""DELETE FROM Listings WHERE Address='{addr}'"""
+		query = f"""DELETE FROM Listings_listings WHERE Address='{addr}'"""
 
-		return query
+		
+		Listings.objects.raw(query)
 
 	
 	def filter_listings(minBedrooms=0, minBathrooms=0, maxRent=5000, minSqft=0, isApartment=-1):
@@ -161,29 +143,17 @@ class listing_library():
 
 		# If the user specifies the type of listing (i.e. apartment or house), only those types of listings are searched for
 		if isApartment == -1:
-			query = f"""SELECT * FROM Listings WHERE Bedrooms>={beds} AND Bathrooms>={baths} AND ListingPrice<={rent} AND SqFt>={sqft};"""
+			query = f"""SELECT * FROM Listings_listings WHERE Bedrooms>={beds} AND Bathrooms>={baths} AND ListingPrice<={rent} AND SqFt>={sqft};"""
 		# If the user doesn't specify, then all listings meeting the other params are returned
 		else:
-			query = f"""SELECT * FROM Listings WHERE Bedrooms>={beds} AND Bathrooms>={baths} AND ListingPrice<={rent} AND SqFt>={sqft} AND ApartmentBool={apt};"""
+			query = f"""SELECT * FROM Listings_listings WHERE Bedrooms>={beds} AND Bathrooms>={baths} AND ListingPrice<={rent} AND SqFt>={sqft} AND ApartmentBool={apt};"""
 
 
+		Listing.objects.raw(query)
 		return query
 
 
-	def get_all_listings():
-		query = f"""SELECT Address, StartDate, EndDate, ListingPrice, Bedrooms, Bathrooms, SqFt, ApartmentBool, Website, Comments FROM Listings"""
+	def get_all_listings(self):
+		query = f"""SELECT * FROM Listings_listing"""
 
-		return query
-
-'''print(listing_library.add_listing("4000 Braemore Ave, Roseland, IN 46556",
-				 "vgoyette",
-				 "June 1st, 2021",
-				 "May 30th, 2022",
-				 1400,
-			     4,
-				 3,  
-				 1000,
-				 1,
-				 "www.universityedgend.com",
-				 "This place is literally destroyed"
-))'''
+		return Listing.objects.raw(query)

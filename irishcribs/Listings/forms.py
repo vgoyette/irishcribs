@@ -28,4 +28,4 @@ class FilterForm(forms.Form):
     bathrooms = forms.FloatField(label='Minimum # of Bathrooms', required=False, widget=forms.TextInput(attrs={'placeholder': '# of Bathrooms'}))
     sqft = forms.FloatField(label='Minimum Square Footage', required=False, widget=forms.TextInput(attrs={'placeholder': 'Square Footage'}))
     rent = forms.FloatField(label='Maximum Rent ($/Month)', required=False, widget=forms.TextInput(attrs={'placeholder': 'Rent'}))
-    isApartment = forms.IntegerField(label='Apartment?', required=False, widget=forms.TextInput(attrs={'placeholder': 'Enter 1 for apartments, 0 for non-apartments, or leave blank to see all'}))
+    #isApartment = forms.IntegerField(label='Apartment?', required=False, widget=forms.TextInput(attrs={'placeholder': 'Enter 1 for apartments, 0 for non-apartments, or leave blank to see all'}))
