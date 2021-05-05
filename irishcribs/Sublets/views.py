@@ -2,17 +2,15 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.generic.edit import UpdateView, DeleteView
 from django.urls import reverse
-from .models import Listing, listing_library#, EditForm, AddForm, FilterForm, listing_library
+from .models import Sublet, sublet_library#, EditForm, AddForm, FilterForm
 from .forms import AddForm, EditForm, FilterForm
 import json
-import logging
 import pdb
 import datetime
 
 from django.contrib.auth.decorators import login_required
 
-logger=logging.getLogger(__name__)
-lib = listing_library()
+lib = sublet_library()
 
 def convert(o):
     if isinstance(o, datetime.datetime):
@@ -20,13 +18,13 @@ def convert(o):
 
 # Create your views here.
 
-def view_listings(request):
+def view_sublets(request):
     # The "get_all_listings" function from our custom library executes a SQL statement to retrieve all listings
-    listings = lib.get_all_listings()
-    return render(request, 'show_listing.html', {'listings': listings})
+    listings = lib.get_all_sublets()
+    return render(request, 'show_sublet.html', {'listings': listings})
 
 @login_required
-def add_listings(request):
+def add_sublets(request):
     form = None
     if request.method == 'POST':
         user = request.user
@@ -44,20 +42,20 @@ def add_listings(request):
             isApartment = form.cleaned_data['isApartment']
             website     = form.cleaned_data['website']
             comments    = form.cleaned_data['comments']
-            lib.add_listing(address, lister, startDate, endDate, rent, bedrooms, bathrooms, sqft, isApartment, website, comments)
+            lib.add_sublet(address, lister, startDate, endDate, rent, bedrooms, bathrooms, sqft, isApartment, website, comments)
             return redirect('home')
     else:
         form = AddForm()
     
-    return render(request, 'add_listing.html', {'form': form})
+    return render(request, 'add_sublet.html', {'form': form})
 
 
-class EditListingView(UpdateView):
-    model = Listing
+class EditSubletView(UpdateView):
+    model = Sublet
     fields = ['address',
               'startDate',
-			  'rent',
               'endDate',
+			  'rent',
               'bedrooms', 
               'bathrooms', 
               'sqft',
@@ -66,19 +64,19 @@ class EditListingView(UpdateView):
               'comments']
 
     
-    template_name = 'listing_update_form.html'
+    template_name = 'sublet_update_form.html'
     
     def get_success_url(self):
-        return reverse('home')
+        return reverse('show_sublet')
 
 
-class DeleteListingView(DeleteView):
-    model = Listing
+class DeleteSubletView(DeleteView):
+    model = Sublet
 
-    template_name = 'listing_confirm_delete.html'
+    template_name = 'sublet_confirm_delete.html'
 
     def get_success_url(self):
-        return reverse('home')
+        return reverse('show_sublet')
 
 '''@login_required
 def edit_listing(request, address):
@@ -98,13 +96,13 @@ def edit_listing(request, address):
     
     return render(request, 'edit_listing.html', {'form': form})'''
 
-def filter_listing_form(request):
+def filter_sublet_form(request):
     minBeds  = 0
     minBaths = 0
     maxRent  = 5000
     minSqft  = 0
     apt      = -1
-    listings = None
+    sublets = None
 
     if request.method == 'POST':
         form = FilterForm(request.POST)
@@ -120,43 +118,37 @@ def filter_listing_form(request):
             if form.cleaned_data['isApartment']:
                 apt = form.cleaned_data['isApartment']
 
-            '''listings = Listing.objects.filter(bedrooms__gte=minBeds,
-                                              bathrooms__gte=minBaths,
-                                              rent__lte=maxRent,
-                                              sqft__gte=minSqft,
-                                              #isApartment=apt,
-                                            )'''
-            listings = lib.filter_listings(minBeds, minBaths, maxRent, minSqft, apt)
+            sublets = lib.filter_sublets(minBeds, minBaths, maxRent, minSqft, apt)
 
-            filtered_listings = []
-            for listing in listings:
+            filtered_sublets = []
+            for sublet in sublets:
                 d = {}
-                d['address'] = listing[0]
-                d['startDate'] = listing[1].strftime("%m/%d/%y")
+                d['address'] = sublet[0]
+                d['startDate'] = sublet[1].strftime("%m/%d/%y")
                 #pdb.set_trace()
-                d['endDate'] = listing[2].strftime("%m/%d/%y")
-                d['rent'] = listing[3]
-                d['bedrooms'] = listing[4]
-                d['bathrooms'] = listing[5]
-                d['sqft'] = listing[6]
-                d['apt'] = listing[7]
-                d['website'] = listing[8]
-                d['comments'] = listing[9]
-                filtered_listings.append(d)
+                d['endDate'] = sublet[2].strftime("%m/%d/%y")
+                d['rent'] = sublet[3]
+                d['bedrooms'] = sublet[4]
+                d['bathrooms'] = sublet[5]
+                d['sqft'] = sublet[6]
+                d['apt'] = sublet[7]
+                d['website'] = sublet[8]
+                d['comments'] = sublet[9]
+                filtered_sublets.append(d)
             
             
 
-            request.session['filtered_listings'] = filtered_listings
-            return redirect('filtered_listings')
+            request.session['filtered_sublets'] = filtered_sublets
+            return redirect('filtered_sublets')
     else:
         form = FilterForm()
 
-    return render(request, 'filter_listing_form.html', {'form': form})    
+    return render(request, 'filter_sublet_form.html', {'form': form})    
 
 
 # This is the function to actually display the filtered listings to the user
-def filtered_listings(request):
-    listings = request.session['filtered_listings']
+def filtered_sublets(request):
+    sublets = request.session['filtered_sublets']
 
-    return render(request, 'filter_listing.html', {'listings' : listings})
+    return render(request, 'filter_sublet.html', {'sublets' : sublets})
          

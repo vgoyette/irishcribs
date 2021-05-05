@@ -3,11 +3,13 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.forms import ModelForm
 from django.db import connection
-
-
+import mysql.connector
 import uuid
 
 # Create your models here.
+
+cnx = mysql.connector.connect(user='djangouser', password='pw', database='Listings')
+cursor = cnx.cursor()
 
 class Listing(models.Model):
 	address = models.CharField(max_length=100, primary_key=True)
@@ -27,7 +29,7 @@ class Listing(models.Model):
 
 class listing_library():
 	
-	def edit_listing(listing=None, address=None, startDate=None, endDate=None, rent=None, bedrooms=None, bathrooms=None, sqft=None, isApartment=None, website=None, comments=None):
+	def edit_listing(self, listing=None, address=None, startDate=None, endDate=None, rent=None, bedrooms=None, bathrooms=None, sqft=None, isApartment=None, website=None, comments=None):
 		# 0 is house, 1 is apartment
 		rAddr = None
 
@@ -40,7 +42,7 @@ class listing_library():
 		if listing is not None:
 
 			if address == None:
-				query = query + "Address='" + str(listing.address) + "', "
+				query = query + "address='" + str(listing.address) + "', "
 				rAddr = str(listing.address)
 			else:
 				query = query + "address='" + str(address) + "', "
@@ -48,33 +50,33 @@ class listing_library():
 
 
 			if startDate == None:
-				query = query + "StartDate='" + str(listing.startDate) + "', "
+				query = query + "startDate='" + str(listing.startDate) + "', "
 			else:
-				query = query + "StartDate='" + str(startDate) + "', "
+				query = query + "startDate='" + str(startDate) + "', "
 			
 
 			if endDate == None:
-				query = query + "EndDate='" + str(listing.endDate) + "', "
+				query = query + "endDate='" + str(listing.endDate) + "', "
 			else:
-				query = query + "EndDate='" + str(endDate) + "', "
+				query = query + "endDate='" + str(endDate) + "', "
 
 
 			if rent == None:
-				query = query + "ListingPrice=" + str(listing.rent) + ", "
+				query = query + "rent=" + str(listing.rent) + ", "
 			else:
-				query = query + "ListingPrice=" + str(rent) + ", "
+				query = query + "rent=" + str(rent) + ", "
 
 
 			if bedrooms == None:
-				query = query + "Bedrooms=" + str(listing.bedrooms) + ", "
+				query = query + "bedrooms=" + str(listing.bedrooms) + ", "
 			else:
-				query = query + "Bedrooms=" + str(bedrooms) + ", "
+				query = query + "bedrooms=" + str(bedrooms) + ", "
 
 
 			if bathrooms == None:
-				query = query + "Bathrooms=" + str(listing.bathrooms) + ", "
+				query = query + "bathrooms=" + str(listing.bathrooms) + ", "
 			else:
-				query = query + "Bathrooms=" + str(bathrooms) + ", "
+				query = query + "bathrooms=" + str(bathrooms) + ", "
 
 
 			if sqft == None:
@@ -84,21 +86,21 @@ class listing_library():
 
 
 			if isApartment == None:
-				query = query + "ApartmentBool=" + str(listing.isApartment) + ", "
+				query = query + "isApartment=" + str(listing.isApartment) + ", "
 			else:
-				query = query + "ApartmentBool=" + str(isApartment) + ", "
+				query = query + "isApartment=" + str(isApartment) + ", "
 
 
 			if website == None:
-				query = query + "Website='" + str(listing.website) + "', "
+				query = query + "website='" + str(listing.website) + "', "
 			else:
-				query = query + "Website='" + str(website) + "', "
+				query = query + "website='" + str(website) + "', "
 
 
 			if comments == None:
-				query = query + "Comments='" + str(listing.comments) + "', "
+				query = query + "comments='" + str(listing.comments) + "', "
 			else:
-				query = query + "Comments='" + str(comments) + "', "
+				query = query + "comments='" + str(comments) + "', "
 
 			# Add a where clause to make sure the correct address is updated			
 			query = query + " WHERE address='" + rAddr + "';"
@@ -106,34 +108,22 @@ class listing_library():
 			# Execute actual SQL command to edit the row in the database
 			Listing.objects.raw(query)
 
-	def add_listing(address, lister, start, end, rent, bedrooms, bathrooms, sqft, isApartment, website, comments):
-		l = Listing(address=address, 
-					lister=lister,
-					startDate=start,
-					endDate=end,
-					rent=rent,
-					bedrooms=bedrooms,
-					bathrooms=bathrooms,
-					sqft=sqft,
-					isApartment=isApartment,
-					website=website,
-					comments=comments)
-		
-		query = f"""INSERT INTO Listings_listings (Address, Lister, StartDate, EndDate, ListingPrice, Bedrooms, Bathrooms, SqFt, ApartmentBool, Website, Comments) VALUES 
-('{l.address}', '{l.lister}', '{l.startDate}', '{l.endDate}', {l.rent}, {l.bedrooms}, {l.bathrooms}, {l.sqft}, {l.isApartment}, '{l.website}', '{l.comments}'); """
-		
-		Listings.objects.raw(query)
 
-	def delete_listing(listing):
+	# Use a connection cursor to execute an insert statement and add a new listing to the database
+	def add_listing(self, address, user, startDate, endDate, rent, bedrooms, bathrooms, sqft, isApartment, website, comments):
+		
+		with connection.cursor() as cursor:
+			# This python module will automatically protect us from SQL injections by encoding the query
+			cursor.execute("INSERT INTO Listings_listing (address, startDate, endDate, rent, bedrooms, bathrooms, sqft, isApartment, website, comments, lister_id) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);", [address, startDate, endDate, rent, bedrooms, bathrooms, sqft, isApartment, website, comments, user.id]) 
+
+	def delete_listing(self, listing):
 		addr = listing.address
 
-		query = f"""DELETE FROM Listings_listings WHERE Address='{addr}'"""
-
-		
-		Listings.objects.raw(query)
+		with connection.cursor() as cursor:
+			cursor.execute("DELETE FROM Listings_listing WHERE address=%s;", [addr])
 
 	
-	def filter_listings(minBedrooms=0, minBathrooms=0, maxRent=5000, minSqft=0, isApartment=-1):
+	def filter_listings(self, minBedrooms, minBathrooms, maxRent, minSqft, isApartment):
 		beds = minBedrooms
 		baths = minBathrooms
 		rent = maxRent
@@ -142,18 +132,18 @@ class listing_library():
 
 
 		# If the user specifies the type of listing (i.e. apartment or house), only those types of listings are searched for
-		if isApartment == -1:
-			query = f"""SELECT * FROM Listings_listings WHERE Bedrooms>={beds} AND Bathrooms>={baths} AND ListingPrice<={rent} AND SqFt>={sqft};"""
-		# If the user doesn't specify, then all listings meeting the other params are returned
-		else:
-			query = f"""SELECT * FROM Listings_listings WHERE Bedrooms>={beds} AND Bathrooms>={baths} AND ListingPrice<={rent} AND SqFt>={sqft} AND ApartmentBool={apt};"""
+		with connection.cursor() as cursor:
+			if isApartment == -1:
+				cursor.execute("SELECT * FROM Listings_listing WHERE bedrooms >= %s AND bathrooms >= %s AND rent <= %s AND sqft >= %s", [beds, baths, rent, sqft])
+				listings = cursor.fetchall()
+			# If the user doesn't specify, then all listings meeting the other params are returned
+			else:
+				cursor.execute("SELECT * FROM Listings_listing WHERE bedrooms >= %s AND bathrooms >= %s AND rent <= %s AND sqft >= %s AND isApartment = %s", [beds, baths, rent, sqft, apt])
+				listings = cursor.fetchall()
 
-
-		Listing.objects.raw(query)
-		return query
+		return listings
 
 
 	def get_all_listings(self):
-		query = f"""SELECT * FROM Listings_listing"""
-
+		query = "SELECT * FROM Listings_listing"
 		return Listing.objects.raw(query)

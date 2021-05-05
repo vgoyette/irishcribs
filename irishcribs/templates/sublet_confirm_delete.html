@@ -1,20 +1,20 @@
 {% extends 'base_users.html' %}
 
-{% block title %}Delete Listing{% endblock %}
+{% block title %}Delete Sublet{% endblock %}
 
 {% block content %}
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10 col-sm-12">
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title">Delete Listing</h3>
+          <h3 class="card-title">Delete Sublet</h3>
           <form method="post" novalidate>
             {% csrf_token %}
             {% include 'includes/form.html' %}
-            <p>Are you sure you want to delete the listing for {{ listing.address }}?</p>
+            <p>Are you sure you want to sublet the listing for {{ sublet.address }}?</p>
             <p>If not, click <a href="{% url 'home' %}">here</a>.</p>
             <!--{{ form }}-->
-            <button type="submit" class="btn btn-outline-red btn-block">Delete Listing</button>
+            <button type="submit" class="btn btn-outline-red btn-block">Delete Sublet</button>
           </form>
         </div>
       </div>

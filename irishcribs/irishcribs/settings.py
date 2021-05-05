@@ -42,6 +42,7 @@ INSTALLED_APPS = [
 	'home',
 	'Users',
 	'Listings',
+	'Sublets',
 	'widget_tweaks'
 ]
 
@@ -85,6 +86,9 @@ DATABASES = {
 		'OPTIONS': {
 			'read_default_file': '/etc/mysql/my.cnf',
 		},
+		#'NAME': 'Listings',
+		#'USER': 'djangouser',
+		#'PASSWORD': 'pw',
     }
 }
 

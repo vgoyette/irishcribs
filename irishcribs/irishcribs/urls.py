@@ -24,6 +24,9 @@ from Users import views as user_views
 from Listings import views as listing_views
 from Listings.views import EditListingView, DeleteListingView
 
+from Sublets import views as sublet_views
+from Sublets.views import EditSubletView, DeleteSubletView
+
 register_converter(converts.FloatUrlParameterConverter, 'float')
 
 urlpatterns = [
@@ -41,6 +44,12 @@ urlpatterns = [
     #path('filteredListings/<float:bedrooms>/<float:bathrooms>/<float:rent>/<float:sqft>/<float:isApartment>/', listing_views.show_filtered_listings, name='filtered'),
     path('filteredListings/', listing_views.filtered_listings, name='filtered_listings'),
 
+	path('sublets/', sublet_views.view_sublets, name='show_sublet'),
+    path('addsublet/', sublet_views.add_sublets, name='add_sublet'),
+    path('editsublet/<pk>/', EditSubletView.as_view(), name='edit_sublet'),
+    path('deletesublet/<pk>/', DeleteSubletView.as_view(), name='delete_sublet'),
+    path('filtersublets/', sublet_views.filter_sublet_form, name='filter_sublet_form'),
+    path('filteredsublets/', sublet_views.filtered_sublets, name='filtered_sublets'),
     path('admin/', admin.site.urls),
 
 

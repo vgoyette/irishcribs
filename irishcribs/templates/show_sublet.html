@@ -9,7 +9,7 @@
   	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap" rel="stylesheet"/>
   	<link href= "https://fonts.googleapis.com/css?family=Cookie" rel="stylesheet">
   	<link rel="shortcut icon" type="image/ico" href="{% static 'img/homeicon.ico' %}"/>	
-    <title>Listings</title>
+    <title>Sublets</title>
     <style>
 		@gray-darker:               #444444;
 		@gray-dark:                 #696969;
@@ -246,59 +246,59 @@
     <main>
       <div class="userhead">
         <p class="userhead-title"><a href="{% url 'home' %}">IRISH CRIBS</a></p>
-        <p class="userhead-content">Welcome to Irish Cribs! Take a look at off-campus housing in the South Bend area.</p>
+        <p class="userhead-content">Welcome to the available sublets! Take a look at some of the options below.</p>
 		{% if user.is_authenticated %}
-		<p class="userhead-content">You can also click <a href="{% url 'add_listing' %}">here</a> to add a listing.</p>
+		<p class="userhead-content">You can also click <a href="{% url 'add_listing' %}">here</a> to add a sublet.</p>
 		{% endif %}
       </div>
         <ul class="cards"> 
-        {% for listing in listings %} 
+        {% for sublet in listings %} 
             <li class="cards__item"> 
                 <div class="card"> 
                     <div class="card__image card__image--shamrock"></div> 
                     <div class="card__content"> 
-                        <div class="card__title" style="color:green">Listing</div> 
+                        <div class="card__title" style="color:green">Sublet</div> 
                         <ul class="card__text">
-                            <li><b style="color: navy">Address: </b>{{ listing.address }}</li>
+                            <li><b style="color: navy">Address: </b>{{ sublet.address }}</li>
 
-                          {% if listing.startDate %}
-                            <li><b style="color: navy">Start Date: </b>{{ listing.startDate }}</li>
+                          {% if sublet.startDate %}
+                            <li><b style="color: navy">Start Date: </b>{{ sublet.startDate }}</li>
                           {% else %}
                             <li><b style="color: navy">Start Date: </b>N/A</li>
                           {% endif %}
 
-                          {% if listing.endDate %}
-                            <li><b style="color: navy">End Date: </b>{{ listing.endDate }}</li>
+                          {% if sublet.endDate %}
+                            <li><b style="color: navy">End Date: </b>{{ sublet.endDate }}</li>
                           {% else %}
                             <li><b style="color: navy">End Date: </b>N/A</li>
                           {% endif %}
 
-                          {% if listing.rent %}
-                            <li><b style="color: navy">Rent: </b>${{ listing.rent }}/month</li>
+                          {% if sublet.rent %}
+                            <li><b style="color: navy">Rent: </b>${{ sublet.rent }}/month</li>
                           {% else %}
                             <li><b style="color: navy">Rent: </b>N/A</li>
                           {% endif %}
 
-                          {% if listing.bedrooms %}
-                            <li><b style="color: navy">Bedrooms: </b>{{ listing.bedrooms }}</li>
+                          {% if sublet.bedrooms %}
+                            <li><b style="color: navy">Bedrooms: </b>{{ sublet.bedrooms }}</li>
                           {% else %}
                             <li><b style="color: navy">Bedrooms: </b>N/A</li>
                           {% endif %}
 
-                          {% if listing.bathrooms %}
-                            <li><b style="color: navy">Bathrooms: </b>{{ listing.bathrooms }}</li>
+                          {% if sublet.bathrooms %}
+                            <li><b style="color: navy">Bathrooms: </b>{{ sublet.bathrooms }}</li>
                           {% else %}
                             <li><b style="color: navy">Bathrooms: </b>N/A</li>
                           {% endif %}
 
-                          {% if listing.sqft %}
-                            <li><b style="color: navy">Square Footage: </b>{{ listing.sqft }} sq. ft.</li>
+                          {% if sublet.sqft %}
+                            <li><b style="color: navy">Square Footage: </b>{{ sublet.sqft }} sq. ft.</li>
                           {% else %}
                             <li><b style="color: navy">Square Footage: </b>N/A</li>
                           {% endif %}
 
-                          {% if listing.isApartment %}
-                            {% ifequal listing.isApartment 1 %}
+                          {% if sublet.isApartment %}
+                            {% ifequal sublet.isApartment 1 %}
                               <li><b style="color: navy">Apartment: </b>Yes</li>
                             {% else %}
                               <li><b style="color: navy">Apartment: </b>No</li>
@@ -307,21 +307,21 @@
                             <li><b style="color: navy">Apartment: </b>N/A</li>
                           {% endif %}
 
-                          {% if listing.website %}
-                            <li><b style="color: navy">Link: </b><a href="https://{{ listing.website }}" class="card-link">{{ listing.website }}</a></li>
+                          {% if sublet.website %}
+                            <li><b style="color: navy">Link: </b><a href="https://{{ sublet.website }}" class="card-link">{{ sublet.website }}</a></li>
                           {% else %}
                             <li><b style="color: navy">Website: </b>N/A</li>
                           {% endif %}
 
-                          {% if listing.comments %}
-                            <li><b style="color: navy">Comments: </b>{{ listing.comments }}</li>
+                          {% if sublet.comments %}
+                            <li><b style="color: navy">Comments: </b>{{ sublet.comments }}</li>
                           {% else %}
                             <li><b style="color: navy">Comments: </b>N/A</li>
                           {% endif %}
                         </ul>
-                        {% ifequal user listing.lister %}
-                          <button class="btn-delete btn--block card__btn" type="submit"><a href="{% url 'delete_listing' pk=listing.address %}">Delete</a></button>
-                          <button class="btn-edit btn--block card__btn" type="submit"><a href="{% url 'edit_listing' pk=listing.address %}">Edit</a></button>
+                        {% ifequal user sublet.sublet_lister %}
+                          <button class="btn-delete btn--block card__btn" type="submit"><a href="{% url 'delete_sublet' pk=sublet.address %}">Delete</a></button>
+                          <button class="btn-edit btn--block card__btn" type="submit"><a href="{% url 'edit_sublet' pk=sublet.address %}">Edit</a></button>
                         {% endifequal %}
                     </div> 
                 </div> 
@@ -330,7 +330,7 @@
         </ul>
 	{% if user.is_authenticated %}
 	<div id="add-button-id" style="text-align: center">
-    	<button class="btn-edit card__btn" type="submit" style="margin-bottom: 10px; width: 40%"><a href="{% url 'add_listing' %}">Add a New Listing</a></button>
+    	<button class="btn-edit card__btn" type="submit" style="margin-bottom: 10px; width: 40%"><a href="{% url 'add_sublet' %}">Add a New Sublet</a></button>
 	</div>
 	{% endif %}
     </main> 
