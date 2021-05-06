@@ -4,8 +4,15 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login as auth_login
 from django.shortcuts import render, redirect
 from .forms import SignUpForm
+from django.db import connection
+import mysql.connector
+from Listings.models import Listing
 
 # Create your views here.
+
+cnx = mysql.connector.connect(user='djangouser', password='pw', database='Listings')
+cursor = cnx.cursor()
+
 def signup(request):
 	if request.method == 'POST':
 		form = SignUpForm(request.POST)
@@ -23,5 +30,10 @@ def login(request):
 
 def accountPage(request):
 	user = request.user
+	id = user.id
 
-	return render(request, 'profile.html', {'user': user})
+	query = "SELECT * FROM Listings_listing WHERE lister_id=%s"
+	listings = Listing.objects.raw(query, [id])
+
+
+	return render(request, 'profile.html', {'user': user, 'listings': listings})
