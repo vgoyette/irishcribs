@@ -120,12 +120,6 @@ def filter_listing_form(request):
             if form.cleaned_data['isApartment']:
                 apt = form.cleaned_data['isApartment']
 
-            '''listings = Listing.objects.filter(bedrooms__gte=minBeds,
-                                              bathrooms__gte=minBaths,
-                                              rent__lte=maxRent,
-                                              sqft__gte=minSqft,
-                                              #isApartment=apt,
-                                            )'''
             listings = lib.filter_listings(minBeds, minBaths, maxRent, minSqft, apt)
 
             filtered_listings = []
