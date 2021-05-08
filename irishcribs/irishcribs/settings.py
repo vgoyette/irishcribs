@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-	'home',
+	'django.contrib.sites',        # This is new
+	'django_messages','home',
 	'Users',
 	'Listings',
 	'Sublets',
@@ -86,9 +86,9 @@ DATABASES = {
 		'OPTIONS': {
 			'read_default_file': '/etc/mysql/my.cnf',
 		},
-		#'NAME': 'Listings',
-		#'USER': 'djangouser',
-		#'PASSWORD': 'pw',
+		'NAME': 'Listings',
+		'USER': 'djangouser',
+		'PASSWORD': 'pw',
     }
 }
 
@@ -154,3 +154,5 @@ LOGGING = {
         },
     },
 }
+
+SITE_ID = 2

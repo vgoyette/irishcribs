@@ -43,7 +43,7 @@ urlpatterns = [
     path('filterListings/', listing_views.filter_listing_form, name='filter_listing_form'),
     #path('filteredListings/<float:bedrooms>/<float:bathrooms>/<float:rent>/<float:sqft>/<float:isApartment>/', listing_views.show_filtered_listings, name='filtered'),
     path('filteredListings/', listing_views.filtered_listings, name='filtered_listings'),
-
+	path('messages/', include('django_messages.urls')),
 	path('sublets/', sublet_views.view_sublets, name='show_sublet'),
     path('addsublet/', sublet_views.add_sublets, name='add_sublet'),
     path('editsublet/<pk>/', EditSubletView.as_view(), name='edit_sublet'),
