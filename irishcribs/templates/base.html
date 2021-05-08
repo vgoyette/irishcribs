@@ -8,16 +8,16 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'img/compassico.png' %}"/>
     {% block stylesheet %}{% endblock %}
   </head>
-  <body style="background-image: url('/static/css/img/shamrock.JPG'); background-size: cover;">
+  <body>
     {% block body %}
 
-	  <div class="container">
+	<div class="container">
         {% block content %}
         {% endblock %}
-      </div>
 
 		{% block sidebar %}
 		{% endblock %}
+	</div>
     {% endblock body %}
     <script src="{% static 'js/jquery-3.5.1.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>
