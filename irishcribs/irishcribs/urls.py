@@ -52,6 +52,8 @@ urlpatterns = [
     path('filteredsublets/', sublet_views.filtered_sublets, name='filtered_sublets'),
     path('admin/', admin.site.urls),
 
+	path('messages/', include('django_messages.urls')),
+
 
 	path('', home_view.home, name='home'),
 	path('home/', home_view.home, name='home')
