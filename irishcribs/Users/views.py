@@ -34,10 +34,7 @@ def accountPage(request):
 
 	query = "SELECT * FROM Listings_listing, auth_user WHERE Listings_listing.lister_id=auth_user.id AND Listings_listing.lister_id=%s"
 	listings = Listing.objects.raw(query, [id])
-	username = None
-	for listing in listings:
-		username = listing.username
-		break
+	username = listings[0].username
 
 
 	return render(request, 'profile.html', {'user': user, 'listings': listings, 'username' : username})
