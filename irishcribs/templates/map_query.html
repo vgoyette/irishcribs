@@ -15,12 +15,12 @@
 <body>
 	<h1>IRISH CRIBS MAP</h1>
 	<div id="map"></div>
-    <button type="button", id="query_button">Find apartments in selected area!</button>
-	<script>
+    <button type="button", id="query_button"><a href="{% url 'area_listing' %}">Find apartments in selected area!</a></button>
 
-	let regtangle;
-	let map;
-	let infoWindow;
+	<script>
+		let regtangle;
+		let map;
+		let infoWindow;
 
 
 	function initMap(){

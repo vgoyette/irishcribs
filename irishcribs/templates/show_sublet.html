@@ -392,6 +392,20 @@
 		      <span class="link-text">Filter Sublets</span>
         </a>
       </li>
+
+      <li class="nav-item">
+        <a href="http://127.0.0.1:8000/messages/" class="nav-link">
+          <i class="fas fa-envelope fa-primary fa-secondary fa-2x"></i>
+		      <span class="link-text">Messages</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a href="{% url 'map_query' %}" class="nav-link">
+          <i class="fas fa-search fa-primary fa-secondary fa-2x"></i>
+		      <span class="link-text">Search Map</span>
+        </a>
+      </li>
       
 	  <li class="nav-item" id="themeButton">
       {% if user.is_authenticated %}

@@ -6,9 +6,124 @@
     <link href="https://fonts.googleapis.com/css?family=Peralta" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="shortcut icon" type="image/png" href="{% static 'img/compassico.png' %}"/>
+	<style>
+		h1{
+  			text-align: center;
+  			font-size: 72px;
+  			font-family: 'Verdana';
+  			color: goldenrod;
+  			font-weight: bold;
+  			padding-bottom: 0px;
+		}
+
+		a{
+	  		text-decoration: none;
+  			color: goldenrod;
+		}
+
+		.userhead {
+  			display: block;
+  			padding: 10px;
+  			text-align: center;
+  			box-sizing: border-box;
+  			top: 0;
+  			background-color: navy;
+		}
+
+		.userhead-title {
+  			font-size: 72px;
+  			font-family: 'Verdana';
+  			color: goldenrod;
+  			font-weight: bold;
+  			padding-bottom: 0px;
+		}
+
+		.userhead-content {
+  			font-size: 18px;
+  			font-family: 'Open Sans';
+  			color: white;
+		}
+
+		a.heading{
+  			text-align: center;
+		}
+
+		a:hover{
+  			text-decoration: none;
+		}
+
+		.btn-delete {
+  			background-color: red;
+  			border: 1px solid red;
+  			border-radius: 3px;
+  			color: white;
+  			padding: 0.5rem;
+		}
+
+		.btn-edit {
+  			background-color: green;
+  			border: 1px solid green;
+  			border-radius: 3px;
+  			color: white;
+  			padding: 0.5rem;
+		}
+
+		.btn--block {
+  			/*display: block;*/
+  			width: 30%;
+		}
+ 
+
+
+		.column {
+      		float: left;
+      		width: 25%;
+      		padding: 0 10px;
+	    	margin-bottom: 10px;
+    	}
+
+    	.row {margin: 0 -5px;}
+
+    	.row:after {
+      		content: "";
+      		display: table;
+      		clear: both;
+    	}
+
+    	@media screen and (max-width: 700px) {
+      		.column {
+        		width: 100%;
+        		display: block;
+        		margin-bottom: 20px;
+      		}
+    	}
+
+		.fa-primary{
+			color: green;
+		}
+
+		.fa-secondary{
+			color: green;
+		}
+
+		.add-btn-block{
+			display: block;
+			width: 100%;
+			border: none;
+			text-align: center;
+			background-color: green;
+			color: black;
+		}
+
+    </style>
+
     {% block stylesheet %}{% endblock %}
   </head>
   <body>
+  	<div class="userhead">
+       <p class="userhead-title"><a href="{% url 'home' %}">IRISH CRIBS</a></p>
+       <p class="userhead-content">Welcome to Irish Cribs! Take a look at your messages below.</p>
+  	</div>	
     {% block body %}
 
 	<div class="container">

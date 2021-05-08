@@ -5,4 +5,6 @@ def map_query(request):
     #sublets = request.session['filtered_sublets']
 
     return render(request, 'map_query.html') #,{'sublets' : sublets})
-         
+
+def area_listing(request):
+    return render(request, 'area_listing.html')

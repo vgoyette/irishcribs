@@ -30,13 +30,13 @@ main {
   margin-left: 5rem;
 }
 
-.navbar-cust {
+.navbar {
   position: fixed;
   background-color: #23232e;
   transition: width 600ms ease;
 }
 
-.navbar-nav-cust {
+.navbar-nav {
   list-style: none;
   padding: 0;
   margin: 0;
@@ -46,15 +46,15 @@ main {
   height: 100%;
 }
 
-.nav-item-cust {
+.nav-item {
   width: 100%;
 }
 
-.nav-item-cust:last-child {
+.nav-item:last-child {
   margin-top: auto;
 }
 
-.nav-link-cust {
+.nav-link {
   display: flex;
   align-items: center;
   height: 5rem;
@@ -64,20 +64,20 @@ main {
   transition: var(--transition-speed);
 }
 
-.nav-link-cust:hover {
+.nav-link:hover {
   filter: grayscale(0%) opacity(1);
   background: #141418;
   color: #ececec;
 }
 
-.link-text-cust {
+.link-text {
   display: none;
   margin-left: 1rem;
   
   transition: var(--transition-speed);
 }
 
-.nav-link-cust i, svg {
+.nav-link i, svg {
   width: 2rem;
   min-width: 2rem;
   margin: 0 1.5rem;
@@ -96,7 +96,7 @@ main {
   transition: var(--transition-speed);
 }
 
-.logo-cust {
+.logo {
   font-weight: bold;
   text-transform: uppercase;
   margin-bottom: 1rem;
@@ -108,12 +108,12 @@ main {
   width: 100%;
 }
 
-.logo-cust svg {
+.logo svg {
   transform: rotate(0deg);
   transition: var(--transition-speed);
 }
 
-.logo-text-cust
+.logo-text
 {
   font-size: 1.5rem;
   display: inline;
@@ -122,12 +122,12 @@ main {
   transition: var(--transition-speed);
 }
 
-.navbar-cust:hover .logo svg {
+.navbar:hover .logo svg {
   transform: rotate(-180deg);
 }
 
 
-.about-section-cust {
+.about-section {
   padding: 50px;
   text-align: center;
 }

@@ -54,7 +54,7 @@ urlpatterns = [
     path('filteredsublets/', sublet_views.filtered_sublets, name='filtered_sublets'),
     path('admin/', admin.site.urls),
     path('mapquery/', map_views.map_query, name='map_query'),
-
+	path('area_listing/', map_views.area_listing, name='area_listing'),
 
 	path('', home_view.home, name='home'),
 	path('home/', home_view.home, name='home')
