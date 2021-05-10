@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> 
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width-device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>IRISH CRIBS MAP</title>
+	<style>
+		#map{
+			height:600px;
+			width:100%;
+		}
+	</style>
+</head>
+<body>
+	<h1>IRISH CRIBS MAP</h1>
+	<div id="map"></div>
+    <button type="button", id="query_button">Find apartments in selected area!</button>
+	<script>
+
+	let regtangle;
+	let map;
+	let infoWindow;
+
+
+	function initMap(){
+		map = new google.maps.Map(document.getElementById("map"), {
+    		center: { lat: 41.7002, lng: -86.2379  },
+    		zoom: 14,
+  		});	
+		
+		const bounds = { north:41.7085, south:41.7013, east:-86.2158, west:-86.2280 };
+		rectangle = new google.maps.Rectangle({
+			bounds: bounds,
+			editable: true,
+			draggable: true,
+		});
+		rectangle.setMap(map);
+		//rectangle.addListener("bounds_changed", showNewRect);
+		infoWindow = new google.maps.InfoWindow();
+	}	
+
+    document.getElementById("query_button").addEventListener("click", function() {
+  		const ne = rectangle.getBounds().getNorthEast();
+  		const sw = rectangle.getBounds().getSouthWest();
+  		const n = ne.lat();
+		const s = sw.lat();
+		const e = ne.lng();
+		const w = sw.lng();
+
+		const contentString = "<b>OOF</b>";
+  		infoWindow.setContent(contentString);
+  		infoWindow.setPosition(ne);
+  		infoWindow.open(map);
+       
+        var coords = [];
+        coords.push(n);
+        coords.push(s);
+        coords.push(e);
+        coords.push(w);
+ 
+        $.ajax({
+            type: "GET",
+            url: '/mapquery',
+            data: {
+                "result": coords,
+            },
+            dataType: "json",
+            success: function (data) {
+                // any process in data
+                alert("successfull")
+            },
+            failure: function () {
+                alert("failure");
+            }
+        });   
+    });
+
+	</script>
+
+	<script async 
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVYADTq8rJ8_7sl4QrOOB0Se_mnOCHDxg&callback=initMap">
+	</script>
+
+</body>
+</html>

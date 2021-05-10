@@ -27,6 +27,8 @@ from Listings.views import EditListingView, DeleteListingView
 from Sublets import views as sublet_views
 from Sublets.views import EditSubletView, DeleteSubletView
 
+from MapQuery import views as map_views
+
 register_converter(converts.FloatUrlParameterConverter, 'float')
 
 urlpatterns = [
@@ -51,6 +53,7 @@ urlpatterns = [
     path('filtersublets/', sublet_views.filter_sublet_form, name='filter_sublet_form'),
     path('filteredsublets/', sublet_views.filtered_sublets, name='filtered_sublets'),
     path('admin/', admin.site.urls),
+    path('mapquery/', map_views.map_query, name='map_query'),
 
 
 	path('', home_view.home, name='home'),
