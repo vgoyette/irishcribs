@@ -1,86 +1,397 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head> 
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width-device-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>IRISH CRIBS MAP</title>
+	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+	<script defer src="{% static 'js/about.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/about.css' %}"/>
+  	<link rel="stylesheet" href="{% static 'css/fa.css' %}"/>
+	<link rel="shortcut icon" type="image/ico" href="{% static 'img/homeicon.ico' %}"/>	
 	<style>
 		#map{
 			height:600px;
 			width:100%;
+			margin-top: 20px;
+			margin-bottom: 20px;
+		}
+
+		@gray-darker:               #444444;
+		@gray-dark:                 #696969;
+		@gray:                      #999999;
+		@gray-light:                #cccccc;
+		@gray-lighter:              #ececec;
+		@gray-lightest:             lighten(@gray-lighter,4%);
+        
+		*,
+		*::before,
+		*::after { 
+ 			 box-sizing: border-box;
+		}		
+
+		html {
+  			background-color: #f0f0f0;
+		}
+
+		body {
+  			color: @gray;
+  			font-family: 'Roboto','Helvetica Neue', Helvetica, Arial, sans-serif;
+  			font-style: normal;
+  			font-weight: 400;
+  			letter-spacing: 0;
+  			//padding: 1rem;
+  			text-rendering: optimizeLegibility;
+  			-webkit-font-smoothing: antialiased;
+  			-moz-osx-font-smoothing: grayscale;
+  			-moz-font-feature-settings: "liga" on;
+			padding-bottom: 50px;
+		}
+
+		img {
+  			height: auto;
+  			max-width: 100%;
+  			vertical-align: middle;
+		}
+
+		h1{
+  			text-align: center;
+  			font-size: 72px;
+  			font-family: 'Verdana';
+  			color: goldenrod;
+  			font-weight: bold;
+  			padding-bottom: 0px;
+		}
+
+		a{
+	  		text-decoration: none;
+  			color: goldenrod;
+		}
+
+		.userhead {
+  			display: block;
+  			padding: 10px;
+  			text-align: center;
+  			box-sizing: border-box;
+  			top: 0;
+  			background-color: navy;
+		}
+
+		.userhead-title {
+  			font-size: 72px;
+  			font-family: 'Verdana';
+  			color: goldenrod;
+  			font-weight: bold;
+  			padding-bottom: 0px;
+		}
+
+		.userhead-content {
+  			font-size: 18px;
+  			font-family: 'Open Sans';
+  			color: white;
+		}
+
+		a.heading{
+  			text-align: center;
+		}
+
+		a:hover{
+  			text-decoration: none;
+		}
+
+		.btn-delete {
+  			background-color: red;
+  			border: 1px solid red;
+  			border-radius: 3px;
+  			color: white;
+  			padding: 0.5rem;
+		}
+
+		.btn-edit {
+  			background-color: green;
+  			border: 1px solid green;
+  			border-radius: 3px;
+  			color: white;
+  			padding: 0.5rem;
+		}
+
+		.btn--block {
+  			margin: 0 auto;
+			display: block;
+			width: 50%;
+  			background-color: green;
+  			border: 1px solid green;
+  			border-radius: 3px;
+  			color: white;
+  			padding: 0.5rem;
+		}
+ 
+		.cards {
+  			display: flex;
+  			flex-wrap: wrap;
+  			list-style: none;
+  			margin: 0;
+  			padding: 0;
+		}
+
+		.cards__item {
+  			display: flex;
+  			padding: 1rem;
+  			@media(min-width: 40rem) {
+    			width: 50%;
+  			}
+  			@media(min-width: 56rem) {
+    			width: 33.3333%;
+  			}
+		}
+
+		.card {
+  			background-color: rgb(226, 222, 222);
+  			border-radius: 0.25rem;
+  			box-shadow: 0 20px 40px -14px rgba(0,0,0,0.25);
+  			display: flex;
+  			flex-direction: column;
+  			overflow: hidden;
+  			&:hover {
+    			.card__image {
+      				filter: contrast(100%);
+    			}
+  			}
+		}
+
+		.card__content {
+  			display: flex;
+  			flex: 1 1 auto;
+  			flex-direction: column;
+  			padding: 1rem;
+		}
+
+		.card__image {
+  			background-position: center center;
+  			background-repeat: no-repeat;
+  			background-size: cover;
+  			border-top-left-radius: 0.25rem;
+  			border-top-right-radius: 0.25rem;
+  			filter: contrast(70%);
+  			filter: saturate(180%);
+  			overflow: hidden;
+  			position: relative;
+  			transition: filter 0.5s cubic-bezier(.43,.41,.22,.91);;
+  			&::before {
+    			content: "";
+	  			display: block;
+    			padding-top: 56.25%; // 16:9 aspect ratio
+  			}
+  			@media(min-width: 40rem) {
+    			&::before {
+      				padding-top: 66.6%; // 3:2 aspect ratio
+    			}
+  			}
+		}
+
+		.card__image--shamrock {
+  			background-image: url('/static/css/img/shamrock.JPG');
+		}
+
+		.card__title {
+  			color: @gray-dark;
+  			font-size: 1.25rem;
+  			font-weight: 300;
+  			letter-spacing: 2px;
+  			text-transform: uppercase;
+		}
+
+		.card__text {
+  			flex: 1 1 auto;
+  			font-size: 0.875rem;
+  			line-height: 1.5;
+  			margin-bottom: 1.25rem;
+		}
+
+		.card-link {
+  			color: rgb(4, 92, 19);
+  			text-decoration: underline;
+		}
+
+		.column {
+      		float: left;
+      		width: 25%;
+      		padding: 0 10px;
+	    	margin-bottom: 10px;
+    	}
+
+    	.row {margin: 0 -5px;}
+
+    	.row:after {
+      		content: "";
+      		display: table;
+      		clear: both;
+    	}
+
+    	@media screen and (max-width: 700px) {
+      		.column {
+        		width: 100%;
+        		display: block;
+        		margin-bottom: 20px;
+      		}
+    	}
+
+		.fa-primary{
+			color: green;
+		}
+
+		.fa-secondary{
+			color: green;
+		}
+
+		.add-btn-block{
+			display: block;
+			width: 100%;
+			border: none;
+			text-align: center;
+			background-color: green;
+			color: black;
 		}
 	</style>
 </head>
 <body>
-	<h1>IRISH CRIBS MAP</h1>
+	<div class="userhead">
+		<p class="userhead-title"><a href="{% url 'home' %}">IRISH CRIBS</a></p>
+        <p class="userhead-content">Welcome to Irish Cribs! Take a look at off-campus housing in the South Bend area.</p>
+		<p class="userhead-content">Draw a rectangle on the map below to find listings in that area!</p>
+	</div>
 	<div id="map"></div>
-    <button type="button", id="query_button"><a href="{% url 'area_listing' %}">Find apartments in selected area!</a></button>
+    <button type="button" id="query_button" class="btn--block">Find Listings!</button>
+
+	<ul class="cards" id="cards-id">
+	</ul>
+
+
+
 
 	<script>
-		let regtangle;
+		let rectangle;
 		let map;
 		let infoWindow;
 
-
-	function initMap(){
-		map = new google.maps.Map(document.getElementById("map"), {
-    		center: { lat: 41.7002, lng: -86.2379  },
-    		zoom: 14,
-  		});	
+		function initMap(){
+			map = new google.maps.Map(document.getElementById("map"), {
+    			center: { lat: 41.7002, lng: -86.2379  },
+    			zoom: 14,
+  			});	
 		
-		const bounds = { north:41.7085, south:41.7013, east:-86.2158, west:-86.2280 };
-		rectangle = new google.maps.Rectangle({
-			bounds: bounds,
-			editable: true,
-			draggable: true,
-		});
-		rectangle.setMap(map);
-		//rectangle.addListener("bounds_changed", showNewRect);
-		infoWindow = new google.maps.InfoWindow();
-	}	
+			const bounds = { north:41.7085, south:41.7013, east:-86.2158, west:-86.2280 };
+			rectangle = new google.maps.Rectangle({
+				bounds: bounds,
+				editable: true,
+				draggable: true,
+			});
+			rectangle.setMap(map);
+			//rectangle.addListener("bounds_changed", showNewRect);
+			infoWindow = new google.maps.InfoWindow();
+		}
 
-    document.getElementById("query_button").addEventListener("click", function() {
-  		const ne = rectangle.getBounds().getNorthEast();
-  		const sw = rectangle.getBounds().getSouthWest();
-  		const n = ne.lat();
-		const s = sw.lat();
-		const e = ne.lng();
-		const w = sw.lng();
+		var cards = document.getElementById("cards-id");
+	
+		function generateCards(cat_name, cat_value, card_text){
+			var actual_content = document.createElement("li");
+			card_text.append(actual_content);
 
-		const contentString = "<b>OOF</b>";
-  		infoWindow.setContent(contentString);
-  		infoWindow.setPosition(ne);
-  		infoWindow.open(map);
-       
-        var coords = [];
-        coords.push(n);
-        coords.push(s);
-        coords.push(e);
-        coords.push(w);
+			var bolded_text = document.createElement("b"); bolded_text.style.color = "navy";
+			bolded_text.innerHTML = cat_name;
+
+			if(cat_name === "Link: "){
+				var non_bolded_text = document.createElement("a");
+				non_bold_text.href = cat_value;
+				non_bold_text.innerHTML = cat_value;
+				actual_content.append(bolded_text);
+				actual_content.append(non_bolded_text);
+			}
+			else{
+				var non_bolded_text = document.createElement("span");
+				non_bolded_text.innerHTML = cat_value;
+				actual_content.append(bolded_text);
+				actual_content.append(non_bolded_text);
+			}
+		}
+
+    	document.getElementById("query_button").addEventListener("click", function() {
+  			const ne = rectangle.getBounds().getNorthEast();
+  			const sw = rectangle.getBounds().getSouthWest();
+  			const n = ne.lat();
+			const s = sw.lat();
+			const e = ne.lng();
+			const w = sw.lng();
+		
+			/* Data sent to the page that then queries the database to find matching listings within rectangle */
+        	var coords = {"north": n, "east": e, "south": s, "west": w};
+		
+			/*const contentString = "<b>OOF</b>";
+  			infoWindow.setContent(contentString);*/
+  			infoWindow.setPosition(ne);
+  			infoWindow.open(map);
  
-        $.ajax({
-            type: "GET",
-            url: '/mapquery',
-            data: {
-                "result": coords,
-            },
-            dataType: "json",
-            success: function (data) {
-                // any process in data
-                alert("successfull")
-            },
-            failure: function () {
-                alert("failure");
-            }
-        });   
-    });
+        	$.ajax({
+            	type: "POST",
+            	url: "{% url 'map_query' %}",
+            	data: coords,
+            	dataType: "json",
+            	success: function (data) {
+					data.forEach(function(listing){
+						var address     = (listing.address === null) ? "N/A" : listing.address;
+						var startDate   = (listing.startDate === null) ? "N/A" : listing.startDate;
+						var endDate     = (listing.endDate === null) ? "N/A" : listing.endDate;
+						var rent        = (listing.rent === null) ? "N/A" : listing.rent;
+						var bedrooms    = (listing.bedrooms === null) ? "N/A" : listing.bedrooms;
+						var bathrooms   = (listing.bathrooms === null) ? "N/A" : listing.bathrooms;
+						var sqft        = (listing.sqft === null) ? "N/A" : listing.sqft;
+						var isApartment = (listing.isApartment === null) ? "N/A" : listing.isApartment;
+						var website     = (listing.website === null) ? "N/A" : listing.website;
+						var comments    = (listing.comments === null) ? "N/A" : listing.comments;
 
+						var cards_item = document.createElement("li"); cards_item.className = "cards__item";
+						var card = document.createElement("div"); card.className = "card";
+						cards_item.append(card);
+
+						var card_image = document.createElement("div"); card_image.className = "card__image";
+						card.append(card_image);
+
+						var card_content = document.createElement("div"); card_content.className = "card__content";
+						card.append(card_content);
+
+						var card_title = document.createElement("div"); card_title.className = "card__title"; card_title.style.color = "green";	
+						card_title.innerHTML = "Listing";
+						card_content.append(card_title);
+
+						var card_text = document.createElement("ul"); card_text.className = "card__text";
+						card_content.append(card_text);
+
+					
+						generateCards("Address: ", address, card_text);
+						generateCards("Start Date: ", startDate, card_text);
+						generateCards("End Date: ", endDate, card_text);
+						generateCards("Rent: ", rent, card_text);
+						generateCards("Bedrooms: ", bedrooms, card_text);
+						generateCards("Bathrooms: ", bathrooms, card_text);
+						generateCards("Square Footage: ", sqft, card_text);
+						generateCards("Apartment: ", isApartment, card_text);
+						generateCards("Link: ", website, card_text);
+						generateCards("Comments: ", comments, card_text);
+						cards.append(cards_item);
+
+					});
+            	},
+            	failure: function () {
+                	alert("failure");
+            	}
+        	});   
+    	});
 	</script>
 
 	<script async 
-		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVYADTq8rJ8_7sl4QrOOB0Se_mnOCHDxg&callback=initMap">
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVYADTq8rJ8_7sl4QrOOB0Se_mnOCHDxg&callback=initMap&libraries=geometry">
 	</script>
-
 </body>
 </html>
