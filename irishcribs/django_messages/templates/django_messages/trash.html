@@ -21,7 +21,7 @@
         {{ message.subject }}
         </td>
         <td>{{ message.sent_at|date:_("DATETIME_FORMAT") }}</td>
-        <td><a href="{% url 'messages_undelete' message.id %}">{% trans "undelete" %}</a></td>
+        <td><a href="{% url 'django_messages:messages_undelete' message.id %}">{% trans "undelete" %}</a></td>
     </tr>
 {% endfor %}
     </tbody>
@@ -30,5 +30,4 @@
 <p>{% trans "No messages." %}</p>
 {% endif %}
 <br />
-<p>{% trans "Deleted Messages are removed from the trash at unregular intervals, don't rely on this feature for long-time storage." %}</p>
 {% endblock %}

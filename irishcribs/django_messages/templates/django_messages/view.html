@@ -16,9 +16,9 @@
 {{ message.body|linebreaksbr }}<br /><br />
 
 {% ifequal message.recipient.pk user.pk %}
-<button type="button" class="btn btn-success"><a href="{% url 'messages_reply' message.id %}">{% trans "Reply" %}</a></button>
+<button type="button" class="btn btn-success"><a href="{% url 'django_messages:messages_reply' message.id %}">{% trans "Reply" %}</a></button>
 {% endifequal %}
-<button type="button" class="btn btn-danger"><a href="{% url 'messages_delete' message.id %}">{% trans "Delete" %}</a></button>
+<button type="button" class="btn btn-danger"><a href="{% url 'django_messages:messages_delete' message.id %}">{% trans "Delete" %}</a></button>
 
 {% comment %}Example reply_form integration
 {% if reply_form %}

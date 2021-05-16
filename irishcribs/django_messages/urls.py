@@ -3,7 +3,7 @@ from django.views.generic import RedirectView
 
 from django_messages.views import *
 
-#app_name = 'django-messages'
+app_name = 'django_messages'
 urlpatterns = [
     url(r'^$', RedirectView.as_view(permanent=True, url='inbox/'), name='messages_redirect'),
     url(r'^inbox/$', inbox, name='messages_inbox'),
