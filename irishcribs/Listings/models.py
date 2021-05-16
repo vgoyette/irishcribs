@@ -8,7 +8,7 @@ import uuid
 
 # Create your models here.
 
-cnx = mysql.connector.connect(user='djangouser', password='pw', database='Listings')
+cnx = mysql.connector.connect(user='vgoyette', password='vgoyette', database='vgoyette')
 cursor = cnx.cursor()
 
 class Listing(models.Model):
@@ -34,7 +34,7 @@ class listing_library():
 		rAddr = None
 
 		# Build query for an update
-		query = "UPDATE Listings_listings SET "
+		query = "UPDATE Listings_listing SET "
 
 
 		# This way of building the query is pretty gross, but it allows us to control for if only a few attributes are changing and not all of them.
