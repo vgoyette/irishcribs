@@ -11,7 +11,7 @@ import uuid
 
 # Create your models here.
 
-cnx = mysql.connector.connect(user='djangouser', password='pw', database='Listings')
+cnx = mysql.connector.connect(user='vgoyette', password='vgoyette', database='vgoyette')
 cursor = cnx.cursor()
 
 class Sublet(models.Model):

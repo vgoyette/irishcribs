@@ -10,7 +10,7 @@ from Listings.models import Listing
 
 # Create your views here.
 
-cnx = mysql.connector.connect(user='djangouser', password='pw', database='Listings')
+cnx = mysql.connector.connect(user='vgoyette', password='vgoyette', database='vgoyette')
 cursor = cnx.cursor()
 
 def signup(request):

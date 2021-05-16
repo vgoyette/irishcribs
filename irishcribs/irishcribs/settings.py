@@ -86,9 +86,9 @@ DATABASES = {
 		'OPTIONS': {
 			'read_default_file': '/etc/mysql/my.cnf',
 		},
-		'NAME': 'Listings',
-		'USER': 'djangouser',
-		'PASSWORD': 'pw',
+		'NAME': 'vgoyette',
+		'USER': 'vgoyette',
+		'PASSWORD': 'vgoyette',
     }
 }
 
