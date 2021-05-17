@@ -7,8 +7,6 @@
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<title>IRISH CRIBS MAP</title>
 	<script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-	<script defer src="{% static 'js/about.js' %}"></script>
-	<link rel="stylesheet" href="{% static 'css/about.css' %}"/>
   	<link rel="stylesheet" href="{% static 'css/fa.css' %}"/>
 	<link rel="shortcut icon" type="image/ico" href="{% static 'img/homeicon.ico' %}"/>	
 	<style>
@@ -304,8 +302,8 @@
 
 			if(cat_name === "Link: "){
 				var non_bolded_text = document.createElement("a");
-				non_bold_text.href = cat_value;
-				non_bold_text.innerHTML = cat_value;
+				non_bolded_text.href = cat_value;
+				non_bolded_text.innerHTML = cat_value;
 				actual_content.append(bolded_text);
 				actual_content.append(non_bolded_text);
 			}
