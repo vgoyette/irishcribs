@@ -9,7 +9,7 @@ class AddForm(forms.Form):
     bathrooms = forms.FloatField(label='# of Bathrooms', required=False,  widget=forms.TextInput(attrs={'placeholder': '# of Bathrooms'}))
     sqft = forms.FloatField(label='Square Footage', required=False,  widget=forms.TextInput(attrs={'placeholder': 'Square Footage'}))
     isApartment = forms.IntegerField(label='Apartment?', required=False,  widget=forms.TextInput(attrs={'placeholder': 'Enter 1 if it is an apartment, 0 for non-apartments'}))
-    website = forms.CharField(label='Link to website', required=False,  max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Website Link (Or Email to Contact You)'}))
+    website = forms.CharField(label='Link to website', required=False,  max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Website Link (Or Email to Contact You)'}))
     comments = forms.CharField(label='Any other comments', required=False,  max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Leave any other comments about the property here'}))
 
 class EditForm(forms.Form):
@@ -20,7 +20,7 @@ class EditForm(forms.Form):
     bathrooms = forms.FloatField(label='# of Bathrooms', required=False,  widget=forms.TextInput(attrs={'placeholder': '# of Bathrooms'}))
     sqft = forms.FloatField(label='Square Footage', required=False,  widget=forms.TextInput(attrs={'placeholder': 'Square Footage'}))
     isApartment = forms.IntegerField(label='Apartment?', required=False,  widget=forms.TextInput(attrs={'placeholder': 'Enter 1 if it is an apartment, 0 for non-apartments'}))
-    website = forms.CharField(label='Link to website', required=False,  max_length=50, widget=forms.TextInput(attrs={'placeholder': 'Website Link (Or Email to Contact You)'}))
+    website = forms.CharField(label='Link to website', required=False,  max_length=200, widget=forms.TextInput(attrs={'placeholder': 'Website Link (Or Email to Contact You)'}))
     comments = forms.CharField(label='Any other comments', required=False,  max_length=100, widget=forms.TextInput(attrs={'placeholder': 'Leave any other comments about the property here'}))
 
 class FilterForm(forms.Form):
