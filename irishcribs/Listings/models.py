@@ -21,7 +21,7 @@ class Listing(models.Model):
 	bathrooms = models.FloatField(blank=True, null=True)
 	sqft = models.FloatField(blank=True, null=True)
 	isApartment = models.IntegerField(blank=True, null=True)
-	website = models.CharField(max_length=100, blank=True, null=True)
+	website = models.CharField(max_length=200, blank=True, null=True)
 	comments = models.CharField(max_length=100, blank=True, null=True)
 	
 	def __str__(self):
