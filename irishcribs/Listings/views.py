@@ -126,9 +126,9 @@ def filter_listing_form(request):
             for listing in listings:
                 d = {}
                 d['address'] = listing[0]
-                d['startDate'] = listing[1].strftime("%m/%d/%y")
+                #d['startDate'] = listing[1].strftime("%m/%d/%y")
                 #pdb.set_trace()
-                d['endDate'] = listing[2].strftime("%m/%d/%y")
+                #d['endDate'] = listing[2].strftime("%m/%d/%y")
                 d['rent'] = listing[3]
                 d['bedrooms'] = listing[4]
                 d['bathrooms'] = listing[5]
