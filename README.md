@@ -11,7 +11,7 @@ instructions for running our project
 1. login to db server as follows:
 ssh -L PORT:localhost:PORT NETID@db.cse.nd.edu
 
-2. create a virtual environment as follows:
+2. create a virtual environment in the top-level irishcribs directory (the one with requirements.txt) as follows:
 python3 -m venv venv
 
 3. enter virtual environment
